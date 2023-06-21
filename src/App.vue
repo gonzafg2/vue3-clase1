@@ -1,7 +1,6 @@
 <template>
   <h1 :style="changeColorText">Hola {{ name }}</h1>
-  <button @click="changeActive">Cambiar color</button>
-  {{ active }}
+  <button class="btn btn-primary" @click="changeActive">Cambiar color</button>
 </template>
 
 <script setup>
@@ -16,7 +15,6 @@ const changeActive = () => (active.value = !active.value)
 
 const changeColorText = computed(() => {
   const random = Math.random() * colors.length * active.value
-  console.log(random, Math.round(random));
   return 'color:' + colors[Math.round(random)]
 });
 </script>
