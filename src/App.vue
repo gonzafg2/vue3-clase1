@@ -1,23 +1,24 @@
 <template>
-  <h1>Hola {{ name }}</h1>
-  <h2 :style="colorGreen">Soy verde</h2>
-  <h3 v-if="activo">Estado Activo</h3>
-  <ul>
-    <li v-for="(fruta, index) in frutas" :key="index">
-      {{ index }} - {{ fruta }}
-    </li>
-  </ul>
+  <h1 :style="changeColorText">Hola {{ name }}</h1>
+  <button @click="changeActive">Cambiar color</button>
+  {{ active }}
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
+
 const name = "Vue 3";
-const colorGreen = "color: green"
-const activo = true
-const frutas = ["manzana", "pera", "plátano", "frutilla"]
+const colors = ['blue', 'red', 'green', 'yellow', 'pink', 'purple', 'orange']
+
+let active = ref(false);
+
+const changeActive = () => (active.value = !active.value)
+
+const changeColorText = computed(() => {
+  const random = Math.random() * colors.length * active.value
+  console.log(random, Math.round(random));
+  return 'color:' + colors[Math.round(random)]
+});
 </script>
 
-<style>
-h1 {
-  color: red;
-}
-</style>
+<style></style>
