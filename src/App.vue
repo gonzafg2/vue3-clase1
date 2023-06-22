@@ -17,35 +17,7 @@
         />
       </div>
     </div>
-    <div class="row">
-      <nav aria-label="Pagination posts from JSONPlaceholder">
-        <ul class="pagination justify-content-center">
-          <li
-            class="page-item"
-            :class="pageInitialDisabled"
-            @click="setPreviousPage"
-          >
-            <a class="page-link" href="#">Previo</a>
-          </li>
-          <li
-            class="page-item"
-            v-for="(page, i) in getPagesPagination"
-            :key="i"
-          >
-            <a
-              class="page-link"
-              :class="page === pageActual ? 'active' : ''"
-              href="#"
-              @click="setPageActual(page)"
-              >{{ page }}</a
-            >
-          </li>
-          <li class="page-item" :class="pageFinalDisabled" @click="setNextPage">
-            <a class="page-link" href="#">Siguiente</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
+    <PagePagination :data="postsAPI" @changePage="changePage"></PagePagination>
   </div>
 </template>
 
@@ -55,6 +27,7 @@ import { ref, computed } from "vue";
 import TitlePage from "./components/TitlePage.vue";
 import ButtonChangeColor from "./components/ButtonChangeColor.vue";
 import CardPost from "./components/CardPost.vue";
+import PagePagination from "./components/PagePagination.vue";
 
 const color = ref("color: black");
 const postsAPI = ref([]);
@@ -68,28 +41,11 @@ const getPosts = (async () => {
   postsAPI.value = data;
 })();
 
-const getPagesPagination = computed(() =>
-  Math.ceil(postsAPI.value?.length / 12)
-);
-
-const pageInitialDisabled = computed(() =>
-  pageActual.value === 1 ? "disabled" : ""
-);
-
-const pageFinalDisabled = computed(() =>
-  pageActual.value === getPagesPagination ? "disabled" : ""
-);
-
-const setPageActual = (page) => (pageActual.value = page);
-
-const setPreviousPage = () => (pageActual.value > 1 ? pageActual.value-- : 0);
-
-const setNextPage = () =>
-  pageActual.value !== getPagesPagination ? pageActual.value++ : 0;
-
 const postsPagination = computed(() => {
   const start = (pageActual.value - 1) * 12;
   const end = start + 12;
   return postsAPI.value.slice(start, end);
 });
+
+const changePage = (page) => (pageActual.value = page);
 </script>
