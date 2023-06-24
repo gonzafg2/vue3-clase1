@@ -44,7 +44,7 @@ const pageInitialDisabled = computed(() =>
 );
 
 const pageFinalDisabled = computed(() =>
-  pageActual.value === getPagesPagination ? "disabled" : ""
+  pageActual.value === getPagesPagination.value ? "disabled" : ""
 );
 
 const setPageActual = (page) => {
