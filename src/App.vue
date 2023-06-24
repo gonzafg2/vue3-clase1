@@ -23,7 +23,15 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import {
+  ref,
+  computed,
+  onMounted,
+  onUnmounted,
+  onUpdated,
+  onBeforeUpdate,
+  onBeforeMount,
+} from "vue";
 
 import TitlePage from "./components/TitlePage.vue";
 import ButtonChangeColor from "./components/ButtonChangeColor.vue";
@@ -35,8 +43,6 @@ const color = ref("color: black");
 const postsAPI = ref([]);
 const pageActual = ref(1);
 const loading = ref(true);
-
-const changeColorText = (colorEmits) => (color.value = colorEmits);
 
 const getPosts = (async () => {
   try {
@@ -50,6 +56,8 @@ const getPosts = (async () => {
   }
 })();
 
+const changeColorText = (colorEmits) => (color.value = colorEmits);
+
 const postsPagination = computed(() => {
   const start = (pageActual.value - 1) * 12;
   const end = start + 12;
@@ -57,4 +65,21 @@ const postsPagination = computed(() => {
 });
 
 const changePage = (page) => (pageActual.value = page);
+
+// Lifecycle hooks
+onBeforeMount(() => {
+  console.log("onBeforeMount");
+});
+onMounted(() => {
+  console.log("onMounted");
+});
+onBeforeUpdate(() => {
+  console.log("onBeforeUpdate");
+});
+onUpdated(() => {
+  console.log("onUpdated");
+});
+onUnmounted(() => {
+  console.log("onUnmounted");
+});
 </script>
